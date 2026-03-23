@@ -44,6 +44,13 @@ class FinetuneConfig:
     tune_diffusion_model: bool = True
     """If True, fine-tune the diffusion-based action decoder (if present in the model)."""
 
+    tune_top_llm_layers: int = 4
+    """
+    How many top Eagle LLM transformer layers stay trainable when tune_llm is False.
+    Set to 0 to freeze the full LLM and only train the action head — much lower VRAM.
+    Matches Gr00tN1d6Config.tune_top_llm_layers.
+    """
+
     state_dropout_prob: float = 0.0
     """
     Dropout probability applied to state inputs for regularization during training.
@@ -97,6 +104,12 @@ class FinetuneConfig:
 
     gradient_accumulation_steps: int = 1
     """Number of forward passes to accumulate before performing a backward/update step."""
+
+    gradient_checkpointing: bool = False
+    """
+    If True, enable gradient checkpointing to reduce activation memory during training
+    (more recomputation, lower VRAM). Passed to Hugging Face TrainingArguments.
+    """
 
     output_dir: str = "./outputs"
     """Directory where model checkpoints, logs, and outputs are saved."""
