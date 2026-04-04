@@ -71,7 +71,7 @@ echo "Running uv sync (torch==2.7.1+cu128 from pytorch-cu128 index)..."
 uv sync
 
 echo "Installing package in editable mode..."
-uv pip install -e .
+uv pip install -e . --no-deps
 
 # ──────────────────────────────────────────────────────────────────────────────
 # torchcodec — build from source on aarch64 (no Linux aarch64 wheel on PyPI)

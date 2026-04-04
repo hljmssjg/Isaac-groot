@@ -153,6 +153,7 @@ logs_*/
 /wt
 
 # General project data / artifacts
+cache/
 episode_data/
 third_parties/
 *.rdb
