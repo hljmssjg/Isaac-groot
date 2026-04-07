@@ -348,7 +348,7 @@ def run_single_trajectory(
     loader: LeRobotEpisodeLoader,
     traj_id: int,
     embodiment_tag: EmbodimentTag,
-    steps=300,
+    steps=None,
     action_horizon=16,
     skip_timing_steps=1,
 ):
@@ -384,7 +384,7 @@ def run_single_trajectory(
     timing_dict["episode_load_time"] = time.time() - episode_load_start
 
     traj_length = len(traj)
-    actual_steps = min(steps, traj_length)
+    actual_steps = traj_length if steps is None else min(steps, traj_length)
     logging.info(
         f"Using {actual_steps} steps (requested: {steps}, trajectory length: {traj_length})"
     )
@@ -546,7 +546,8 @@ def evaluate_predictions(
         state_keys=state_keys,
         action_keys=action_keys,
         action_horizon=action_horizon,
-        save_plot_path=save_plot_path or f"/tmp/stand_alone_inference/traj_{traj_id}.jpeg",
+        save_plot_path=save_plot_path
+        or str(Path(__file__).resolve().parents[2] / "outputs" / "standalone_inference" / f"traj_{traj_id}.jpeg"),
     )
 
     return mse, mae
@@ -562,8 +563,8 @@ class ArgsConfig:
     port: int = 5555
     """Port to connect to."""
 
-    steps: int = 200
-    """Maximum number of steps to evaluate (will be capped by trajectory length)."""
+    steps: int | None = None
+    """Maximum number of steps to evaluate. If None (default), runs the full episode length."""
 
     traj_ids: list[int] = field(default_factory=lambda: [0])
     """List of trajectory IDs to evaluate."""

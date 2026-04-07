@@ -30,3 +30,20 @@ CUDA_VISIBLE_DEVICES=0 uv run python \
     --tune-top-llm-layers 4 \
     --color-jitter-params brightness 0.3 contrast 0.4 saturation 0.5 hue 0.08 \
     --dataloader-num-workers 4
+
+
+
+python gr00t/eval/real_robot/G1/eval_g1_0330.py \
+  --policy_host 127.0.0.1 \
+  --policy_port 5556 \
+  --action_horizon 16 \
+  --control_frequency 30 \
+  --lang_instruction "Pick up the object." \
+  --camera_host localhost \
+  --camera_port 5555 \
+  --init_state gr00t/eval/real_robot/G1/g1_0330_episode0_frame0_init_state.txt \
+  --urdf ~/xr_teleoperate/assets/g1/g1_body29_hand14.urdf \
+  --mesh_dir ~/xr_teleoperate/assets/g1/
+
+
+
